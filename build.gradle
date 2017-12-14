@@ -19,6 +19,9 @@ jar {
     manifest {
         attributes "Premain-Class": "com.github.kornilova_l.object_size_viewer.Agent"
     }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
     archiveName = 'javaagent.jar'
     includeEmptyDirs = false
 }
