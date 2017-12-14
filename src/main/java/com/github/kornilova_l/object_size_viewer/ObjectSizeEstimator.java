@@ -1,6 +1,7 @@
 package com.github.kornilova_l.object_size_viewer;
 
 import java.lang.instrument.Instrumentation;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,8 +36,13 @@ public class ObjectSizeEstimator {
     @SuppressWarnings("unused")
     public void printInstrumentationSize(final Object object) {
         if (!printedClasses.contains(object.getClass())) {
-            System.out.println("Object of type '" + object.getClass() + "' has size of "
-                    + inst.getObjectSize(object) + " bytes.");
+            String className = object.getClass().getSimpleName();
+            if (className.length() < 15) {
+                /* kinda ugly */
+                className = className + String.join("", Collections.nCopies(15 - className.length(), " "));
+            }
+            System.out.println(className + " \t" +
+                    inst.getObjectSize(object) + " bytes. Package: " + object.getClass().getPackage().getName());
             printedClasses.add(object.getClass());
         }
     }

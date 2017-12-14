@@ -22,6 +22,6 @@ jar {
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
-    archiveName = 'javaagent.jar'
+    archiveName = 'objects_size_printer_agent.jar'
     includeEmptyDirs = false
 }
