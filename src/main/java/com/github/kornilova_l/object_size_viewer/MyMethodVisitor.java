@@ -11,16 +11,12 @@ class MyMethodVisitor extends AdviceAdapter {
 
     @Override
     protected void onMethodEnter() {
-//        mv.visitMethodInsn();
-        /*
-        GETSTATIC java/lang/System.out : Ljava/io/PrintStream;
-    LDC "Hello"
-    INVOKEVIRTUAL java/io/PrintStream.println (Ljava/lang/String;)V
-         */
-        mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        mv.visitLdcInsn("Hello");
-        mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream",
-                "println", "(Ljava/lang/String;)V", false);
-        System.out.println("Hello");
+        /* get instance of ObjectSizeEstimator that contains Instrumentation */
+        mv.visitMethodInsn(INVOKESTATIC, "com/github/kornilova_l/object_size_viewer/ObjectSizeEstimator",
+                "getInstance", "()Lcom/github/kornilova_l/object_size_viewer/ObjectSizeEstimator;", false);
+        /* load `this` to stack */
+        mv.visitVarInsn(ALOAD, 0);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "com/github/kornilova_l/object_size_viewer/ObjectSizeEstimator",
+                "printInstrumentationSize", "(Ljava/lang/Object;)V", false);
     }
 }
